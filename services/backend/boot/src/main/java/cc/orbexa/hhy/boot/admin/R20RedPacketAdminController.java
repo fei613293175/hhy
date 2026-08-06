@@ -5,7 +5,10 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignPage;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimPage;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.Codec;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LedgerPage;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.SessionPage;
 import cc.orbexa.hhy.incentive.R20RedPacketPostgresStore;
 import cc.orbexa.hhy.incentive.R20RedPacketService;
 import cc.orbexa.hhy.incentive.R20RedPacketStore;
@@ -75,6 +78,41 @@ public class R20RedPacketAdminController {
             @PathVariable @Pattern(regexp = ID) String id,
             HttpServletRequest request) {
         return success(request, service.adminCampaign(id));
+    }
+
+    @GetMapping("/red-packet-campaigns/{id}/sessions")
+    @PreAuthorize("hasAuthority('redpacket.read')")
+    public ApiResponse<SessionPage> adminRedPacketGetRedPacketCampaignsByIdSessions(
+            @PathVariable @Pattern(regexp = ID) String id,
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int pageSize,
+            @RequestParam(required = false) @Size(max = 256) String cursor,
+            @RequestParam(required = false) @Size(max = 64) String status,
+            @RequestParam(required = false) @Size(max = 100) String keyword,
+            @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
+            HttpServletRequest request) {
+        return success(request, service.adminSessions(id, page, pageSize, cursor, status, keyword, sort));
+    }
+
+    @GetMapping("/red-packet-campaigns/{id}/claims")
+    @PreAuthorize("hasAuthority('redpacket.read')")
+    public ApiResponse<ClaimPage> adminRedPacketGetRedPacketCampaignsByIdClaims(
+            @PathVariable @Pattern(regexp = ID) String id,
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int pageSize,
+            @RequestParam(required = false) @Size(max = 256) String cursor,
+            @RequestParam(required = false) @Size(max = 64) String status,
+            @RequestParam(required = false) @Size(max = 100) String keyword,
+            @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
+            HttpServletRequest request) {
+        return success(request, service.adminClaims(id, page, pageSize, cursor, status, keyword, sort));
+    }
+
+    @GetMapping("/red-packet-campaigns/{id}/ledger")
+    @PreAuthorize("hasAuthority('redpacket.finance')")
+    public ApiResponse<LedgerPage> adminRedPacketGetRedPacketCampaignsByIdLedger(
+            @PathVariable @Pattern(regexp = ID) String id, HttpServletRequest request) {
+        return success(request, service.adminLedger(id));
     }
 
     @PostMapping("/red-packet-campaigns/{id}/review")

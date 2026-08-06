@@ -3074,6 +3074,46 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
+        RedPacketViewSessionResource: {
+            id: string;
+            campaignId: string;
+            status: string;
+            /** Format: int64 */
+            requiredSeconds: number;
+            /** Format: int64 */
+            accumulatedSeconds: number;
+            /** Format: date-time */
+            expiresAt?: string;
+            /** Format: int64 */
+            version: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        RedPacketClaimResource: {
+            id: string;
+            campaignId: string;
+            status: string;
+            /** Format: int64 */
+            amountCent: number;
+            /** Format: int64 */
+            amountVersion: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            settledAt?: string;
+        };
+        RedPacketLedgerEntryResource: {
+            id: string;
+            campaignId: string;
+            entryType?: string;
+            /** Format: int64 */
+            amountCent: number;
+            /** Format: int64 */
+            balanceAfterCent: number;
+            bizId?: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
         OrderResource: {
             orderNo: string;
             userId: string;
@@ -4211,7 +4251,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["RedPacketCampaignResource"][];
+                items: components["schemas"]["RedPacketViewSessionResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -4244,7 +4284,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["RedPacketCampaignResource"][];
+                items: components["schemas"]["RedPacketClaimResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -4276,7 +4316,9 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["RedPacketCampaignResource"];
+            data: {
+                items: components["schemas"]["RedPacketLedgerEntryResource"][];
+            };
         };
         AdminRedPacketGetRedPacketCampaignsByIdLedgerParameters: {
             /** @description 路径资源标识：id */

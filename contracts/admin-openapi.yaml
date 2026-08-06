@@ -19599,6 +19599,108 @@ components:
       - remainingCount
       - amountPerClaimCent
       - version
+    RedPacketViewSessionResource:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - campaignId
+      - status
+      - requiredSeconds
+      - accumulatedSeconds
+      - version
+      - createdAt
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        campaignId:
+          type: string
+          maxLength: 64
+        status:
+          type: string
+          maxLength: 64
+        requiredSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        accumulatedSeconds:
+          type: integer
+          format: int64
+          minimum: 0
+        expiresAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+    RedPacketClaimResource:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - campaignId
+      - status
+      - amountCent
+      - amountVersion
+      - createdAt
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        campaignId:
+          type: string
+          maxLength: 64
+        status:
+          type: string
+          maxLength: 64
+        amountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        amountVersion:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        settledAt:
+          type: string
+          format: date-time
+    RedPacketLedgerEntryResource:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - campaignId
+      - amountCent
+      - balanceAfterCent
+      - createdAt
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        campaignId:
+          type: string
+          maxLength: 64
+        entryType:
+          type: string
+          maxLength: 255
+        amountCent:
+          type: integer
+          format: int64
+        balanceAfterCent:
+          type: integer
+          format: int64
+        bizId:
+          type: string
+          maxLength: 64
+        createdAt:
+          type: string
+          format: date-time
     OrderResource:
       type: object
       additionalProperties: false
@@ -22490,7 +22592,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/RedPacketCampaignResource'
+                $ref: '#/components/schemas/RedPacketViewSessionResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     AdminRedPacketGetRedPacketCampaignsByIdSessionsParameters:
@@ -22557,7 +22659,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/RedPacketCampaignResource'
+                $ref: '#/components/schemas/RedPacketClaimResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     AdminRedPacketGetRedPacketCampaignsByIdClaimsParameters:
@@ -22615,7 +22717,15 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/RedPacketCampaignResource'
+          type: object
+          additionalProperties: false
+          required:
+          - items
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/RedPacketLedgerEntryResource'
     AdminRedPacketGetRedPacketCampaignsByIdLedgerParameters:
       type: object
       additionalProperties: false

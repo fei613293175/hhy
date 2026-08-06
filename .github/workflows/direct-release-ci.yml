@@ -68,6 +68,7 @@ jobs:
       - run: python scripts/check_r19_observability.py
       - run: python scripts/check_r20_observability.py
       - run: python tests/test_r22_red_packet_contract.py
+      - run: python tests/test_r23_red_packet_analytics_contract.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -92,13 +93,13 @@ jobs:
         run: ./gradlew --no-daemon --stacktrace testDebugUnitTest assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: r22-debug-apk-${{ github.run_id }}
+          name: r23-debug-apk-${{ github.run_id }}
           path: apps/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
 
   android-emulator:
-    name: R22 Android emulator interactions
+    name: R23 Android emulator interactions
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -157,7 +158,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: r22-emulator-${{ github.run_id }}
+          name: r23-emulator-${{ github.run_id }}
           path: |
             artifacts/r22-emulator
             artifacts/reports/R20/visual/android

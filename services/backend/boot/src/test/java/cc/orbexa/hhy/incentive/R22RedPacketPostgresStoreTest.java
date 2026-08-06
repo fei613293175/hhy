@@ -268,6 +268,35 @@ class R22RedPacketPostgresStoreTest {
         assertEquals(Kind.BUSINESS_RULE, rejected.kind());
     }
 
+    @Test
+    void r23AdminReadModelsStayCampaignScopedAndAnalyticsIsIdempotent() {
+        Fixture fixture = fixture();
+        Instant base = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        long campaignId = fixture.campaign(2, base);
+        long otherCampaignId = fixture.campaign(1, base);
+        long userId = fixture.user(true);
+        CommandResultResource session = fixture.store(base).startViewSession(
+                command(userId, "r23-read-session"), campaignId,
+                new ViewSessionRequest("nonce-r23", "android-ci"), hash("r23-read-session"));
+        fixture.store(base.plusSeconds(20)).heartbeat(
+                command(userId, "r23-read-heartbeat"), Long.parseLong(session.resourceId()),
+                new HeartbeatRequest(1, 20, true), hash("r23-read-heartbeat"));
+        fixture.store(base.plusSeconds(21)).claim(
+                command(userId, "r23-read-claim"), Long.parseLong(session.resourceId()),
+                new ClaimRequest("nonce-r23", 1), hash("r23-read-claim"));
+
+        R20RedPacketStore.PageQuery page = new R20RedPacketStore.PageQuery(1, 20, 0, null, null, "createdAt:desc");
+        assertEquals(1, fixture.store(base.plusSeconds(22)).adminSessions(campaignId, page).items().size());
+        assertEquals(1, fixture.store(base.plusSeconds(22)).adminClaims(campaignId, page).items().size());
+        assertEquals(0, fixture.store(base.plusSeconds(22)).adminSessions(otherCampaignId, page).items().size());
+        assertEquals(0, fixture.store(base.plusSeconds(22)).adminClaims(otherCampaignId, page).items().size());
+        assertEquals(2L, fixture.count(
+                "SELECT count(*) FROM hhy.analytics_events WHERE traffic_type='INCENTIVIZED_RED_PACKET_TRAFFIC'"));
+        assertEquals(2L, fixture.count(
+                "SELECT sum(value) FROM hhy.daily_kpis WHERE dimensions @> '{\"trafficType\":\"INCENTIVIZED_RED_PACKET_TRAFFIC\"}'::jsonb"));
+        assertEquals(0, fixture.store(base.plusSeconds(22)).adminLedger(campaignId).size());
+    }
+
     private static Fixture fixture() {
         String url = System.getenv("HHY_DB_MIGRATION_TEST_URL");
         Assumptions.assumeTrue(url != null && !url.isBlank()

@@ -4,6 +4,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignPage;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimPage;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LedgerPage;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.SessionPage;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CommandResultResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CreateRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
@@ -320,6 +323,22 @@ public final class R20RedPacketService {
         return execute(() -> store.adminCampaign(id(id, "红包活动")));
     }
 
+    public SessionPage adminSessions(
+            String id, int page, int pageSize, String cursor, String status, String keyword, String sort) {
+        QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
+        return sessionPage(execute(() -> store.adminSessions(id(id, "红包活动"), query.store())), query);
+    }
+
+    public ClaimPage adminClaims(
+            String id, int page, int pageSize, String cursor, String status, String keyword, String sort) {
+        QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
+        return claimPage(execute(() -> store.adminClaims(id(id, "红包活动"), query.store())), query);
+    }
+
+    public LedgerPage adminLedger(String id) {
+        return new LedgerPage(execute(() -> store.adminLedger(id(id, "红包活动"))));
+    }
+
     public CampaignResource review(
             AdminCommand actor, String id, AdminReviewRequest request,
             String idempotencyKey) {
@@ -459,6 +478,24 @@ public final class R20RedPacketService {
         return new CampaignPage(result.items(), new R20RedPacketContracts.PageMeta(
                 query.store().page(), query.store().pageSize(), Long.toString(total),
                 null, Boolean.toString(more)));
+    }
+
+    private static SessionPage sessionPage(
+            R20RedPacketStore.PageSlice<R20RedPacketContracts.ViewSessionResource> result, QueryPlan query) {
+        return new SessionPage(result.items(), pageMeta(result, query));
+    }
+
+    private static ClaimPage claimPage(
+            R20RedPacketStore.PageSlice<R20RedPacketContracts.ClaimResource> result, QueryPlan query) {
+        return new ClaimPage(result.items(), pageMeta(result, query));
+    }
+
+    private static R20RedPacketContracts.PageMeta pageMeta(
+            R20RedPacketStore.PageSlice<?> result, QueryPlan query) {
+        long total = result.total();
+        boolean more = query.store().offset() + result.items().size() < total;
+        return new R20RedPacketContracts.PageMeta(query.store().page(), query.store().pageSize(),
+                Long.toString(total), null, Boolean.toString(more));
     }
 
     private static UserCommand userCommand(long userId, String operation, String key, String requestId) {

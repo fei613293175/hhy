@@ -30,6 +30,31 @@ public final class R20RedPacketContracts {
         public CampaignPage { items = List.copyOf(items); }
     }
 
+    /** R23 admin read models. They intentionally expose operational facts, not campaigns. */
+    public record ViewSessionResource(
+            String id, String campaignId, String status, long requiredSeconds,
+            long accumulatedSeconds, Instant expiresAt, long version, Instant createdAt) { }
+
+    public record ClaimResource(
+            String id, String campaignId, String status, long amountCent, long amountVersion,
+            Instant createdAt, Instant settledAt) { }
+
+    public record LedgerEntryResource(
+            String id, String campaignId, String entryType, long amountCent, long balanceAfterCent,
+            String bizId, Instant createdAt) { }
+
+    public record SessionPage(List<ViewSessionResource> items, PageMeta page) {
+        public SessionPage { items = List.copyOf(items); }
+    }
+
+    public record ClaimPage(List<ClaimResource> items, PageMeta page) {
+        public ClaimPage { items = List.copyOf(items); }
+    }
+
+    public record LedgerPage(List<LedgerEntryResource> items) {
+        public LedgerPage { items = List.copyOf(items); }
+    }
+
     public record CreateRequest(
             String contentId,
             Long totalCount,

@@ -4,6 +4,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignPage;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LedgerEntryResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CommandResultResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CreateRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
@@ -75,6 +78,12 @@ public interface R20RedPacketStore {
     PageSlice<CampaignResource> adminCampaigns(PageQuery query);
 
     CampaignResource adminCampaign(long campaignId);
+
+    PageSlice<ViewSessionResource> adminSessions(long campaignId, PageQuery query);
+
+    PageSlice<ClaimResource> adminClaims(long campaignId, PageQuery query);
+
+    List<LedgerEntryResource> adminLedger(long campaignId);
 
     CampaignResource review(
             AdminCommand command, long campaignId, AdminReviewRequest request, String requestHash);

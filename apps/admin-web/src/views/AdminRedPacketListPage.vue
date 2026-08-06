@@ -14,7 +14,7 @@ function statusLabel(value: string) { return ({ DRAFT: '草稿', PRE_REVIEWING: 
 function message(caught: unknown) { if (isApiRequestError(caught)) { if (caught.status === 401) adminSession.clear(); if (caught.status === 403) forbidden.value = true; return caught.message } return '红包活动暂时无法加载，请稍后重试' }
 async function syncQuery() { await router.replace({ query: { page: String(filters.page), pageSize: String(filters.pageSize), keyword: filters.keyword || undefined, status: filters.status || undefined, sort: filters.sort } }) }
 async function load() { loading.value = true; error.value = ''; forbidden.value = false; try { await syncQuery(); const page = await adminRedPacketApi.campaigns(filters); items.value = page.items; pageMeta.value = page.page; if (selected.value) selected.value = items.value.find((item) => item.id === selected.value?.id) } catch (caught) { error.value = message(caught) } finally { loading.value = false } }
-async function openDetail(item: AdminRedPacketResource) { selected.value = item; detailLoading.value = true; try { selected.value = await adminRedPacketApi.campaign(item.id) } catch (caught) { error.value = message(caught) } finally { detailLoading.value = false } }
+async function openDetail(item: AdminRedPacketResource) { await router.push({ name: 'ADM-RP-002', params: { id: item.id } }) }
 function goToPage(page: number) { if (page < 1 || loading.value || (page > filters.page && !hasMore.value)) return; filters.page = page; void load() }
 function reset() { Object.assign(filters, { page: 1, pageSize: 20, keyword: '', status: '', sort: 'createdAt:desc' }); void load() }
 onMounted(() => { void load() })

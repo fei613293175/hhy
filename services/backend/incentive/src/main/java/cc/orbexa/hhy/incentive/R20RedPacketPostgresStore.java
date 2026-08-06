@@ -3,7 +3,9 @@ package cc.orbexa.hhy.incentive;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CampaignResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CommandResultResource;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LedgerEntryResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CreateRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.PatchRequest;
@@ -17,6 +19,7 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionResource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -524,6 +527,8 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 if (update.executeUpdate() != 1) throw new StoreException(Kind.STOCK_EXHAUSTED, "红包库存已耗尽");
             }
             complete(connection, claim.id(), Long.toString(sessionId));
+            analytics(connection, "red_packet_view_started", command.userId(), campaignId,
+                    "R23:VIEW:" + sessionId, currentTime);
             outbox(connection, sessionId, "red_packet_view_session", "red.packet.view.started.v1",
                     Map.of("sessionId", sessionId, "campaignId", campaignId, "userId", command.userId()));
             return sessionResult(connection, sessionId);
@@ -625,6 +630,8 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 update.setObject(1, time(currentTime)); update.setLong(2, session.id()); update.executeUpdate();
             }
             complete(connection, claim.id(), Long.toString(claimId));
+            analytics(connection, "red_packet_claimed", command.userId(), session.campaignId(),
+                    "R23:CLAIM:" + claimId, currentTime);
             outbox(connection, claimId, "red_packet_claim", "red.packet.claim.created.v1",
                     Map.of("claimId", claimId, "campaignId", session.campaignId(), "userId", command.userId()));
             return claimResult(connection, claimId);
@@ -825,6 +832,67 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
     }
 
     @Override
+    public PageSlice<ViewSessionResource> adminSessions(long campaignId, PageQuery query) {
+        return read(connection -> {
+            campaign(connection, campaignId, 0, true, false);
+            String filters = "campaign_id=?";
+            List<Object> args = new ArrayList<>(List.of(campaignId));
+            if (query.status() != null) { filters += " AND status=?"; args.add(query.status()); }
+            if (query.keyword() != null) { filters += " AND CAST(id AS text) LIKE ?"; args.add("%" + query.keyword() + "%"); }
+            List<ViewSessionResource> items = new ArrayList<>();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id,campaign_id,status,valid_seconds,accumulated_seconds,expires_at,version,created_at "
+                            + "FROM hhy.red_packet_view_sessions WHERE " + filters
+                            + " ORDER BY created_at " + ("createdAt:asc".equals(query.sort()) ? "ASC" : "DESC") + " LIMIT ? OFFSET ?")) {
+                bind(statement, args); statement.setInt(args.size() + 1, query.pageSize()); statement.setLong(args.size() + 2, query.offset());
+                try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new ViewSessionResource(
+                        Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
+                        rows.getLong(5), instant(rows, 6), rows.getLong(7), instant(rows, 8)))); }
+            } catch (SQLException failure) { throw internal("红包浏览会话读取失败", failure); }
+            return new PageSlice<>(items, count(connection, "hhy.red_packet_view_sessions", filters, args));
+        });
+    }
+
+    @Override
+    public PageSlice<ClaimResource> adminClaims(long campaignId, PageQuery query) {
+        return read(connection -> {
+            campaign(connection, campaignId, 0, true, false);
+            String filters = "campaign_id=?";
+            List<Object> args = new ArrayList<>(List.of(campaignId));
+            if (query.status() != null) { filters += " AND status=?"; args.add(query.status()); }
+            if (query.keyword() != null) { filters += " AND CAST(id AS text) LIKE ?"; args.add("%" + query.keyword() + "%"); }
+            List<ClaimResource> items = new ArrayList<>();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id,campaign_id,status,amount,amount_version,created_at,updated_at "
+                            + "FROM hhy.red_packet_claims WHERE " + filters
+                            + " ORDER BY created_at " + ("createdAt:asc".equals(query.sort()) ? "ASC" : "DESC") + " LIMIT ? OFFSET ?")) {
+                bind(statement, args); statement.setInt(args.size() + 1, query.pageSize()); statement.setLong(args.size() + 2, query.offset());
+                try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new ClaimResource(
+                        Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
+                        rows.getLong(5), instant(rows, 6), instant(rows, 7)))); }
+            } catch (SQLException failure) { throw internal("红包领取记录读取失败", failure); }
+            return new PageSlice<>(items, count(connection, "hhy.red_packet_claims", filters, args));
+        });
+    }
+
+    @Override
+    public List<LedgerEntryResource> adminLedger(long campaignId) {
+        return read(connection -> {
+            campaign(connection, campaignId, 0, true, false);
+            List<LedgerEntryResource> items = new ArrayList<>();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT id,campaign_id,entry_type,amount,balance_after,biz_id,created_at "
+                            + "FROM hhy.red_packet_ledger WHERE campaign_id=? ORDER BY created_at ASC,id ASC")) {
+                statement.setLong(1, campaignId);
+                try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new LedgerEntryResource(
+                        Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
+                        rows.getLong(5), nullableLong(rows, 6), instant(rows, 7)))); }
+            } catch (SQLException failure) { throw internal("红包账本读取失败", failure); }
+            return List.copyOf(items);
+        });
+    }
+
+    @Override
     public CampaignResource review(
             AdminCommand command, long campaignId, AdminReviewRequest request, String requestHash) {
         return transaction(connection -> {
@@ -991,6 +1059,14 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                         instant(rows, 10), instant(rows, 11), rows.getLong(12));
             }
         } catch (SQLException failure) { throw internal("红包活动读取失败", failure); }
+    }
+
+    private static long count(Connection connection, String table, String filters, List<Object> args) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT count(*) FROM " + table + " WHERE " + filters)) {
+            bind(statement, args);
+            try (ResultSet rows = statement.executeQuery()) { rows.next(); return rows.getLong(1); }
+        } catch (SQLException failure) { throw internal("红包分页统计读取失败", failure); }
     }
 
     private CampaignResource publicResource(Connection connection, long campaignId) {
@@ -1187,6 +1263,29 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
             statement.setString(3, UUID.randomUUID().toString()); statement.setString(4, eventType);
             statement.setString(5, codec.json(payload)); statement.executeUpdate();
         } catch (SQLException failure) { throw internal("红包事件写入失败", failure); }
+    }
+
+    /** Records a single R23 business event and atomically rolls it up by traffic source. */
+    private void analytics(Connection connection, String eventName, long userId, long campaignId,
+                           String eventKey, Instant occurredAt) {
+        try (PreparedStatement insert = connection.prepareStatement(
+                "INSERT INTO hhy.analytics_events(user_id,event_name,biz_type,biz_id,traffic_type,properties,occurred_at,event_key) "
+                        + "VALUES (?,?, 'RED_PACKET', ?, 'INCENTIVIZED_RED_PACKET_TRAFFIC', ?::jsonb, ?, ?) "
+                        + "ON CONFLICT (event_key) WHERE event_key IS NOT NULL DO NOTHING")) {
+            insert.setLong(1, userId); insert.setString(2, eventName); insert.setLong(3, campaignId);
+            insert.setString(4, codec.json(Map.of("campaignId", campaignId)));
+            insert.setObject(5, time(occurredAt)); insert.setString(6, eventKey);
+            if (insert.executeUpdate() != 1) return;
+        } catch (SQLException failure) { throw internal("R23分析事件写入失败", failure); }
+        try (PreparedStatement rollup = connection.prepareStatement(
+                "INSERT INTO hhy.daily_kpis(stat_date,metric_code,dimensions,value) "
+                        + "VALUES ((? AT TIME ZONE 'UTC')::date, ?, ?::jsonb, 1) "
+                        + "ON CONFLICT (stat_date,metric_code,dimensions) DO UPDATE "
+                        + "SET value=hhy.daily_kpis.value+1,updated_at=clock_timestamp()")) {
+            rollup.setObject(1, time(occurredAt)); rollup.setString(2, eventName);
+            rollup.setString(3, codec.json(Map.of("trafficType", "INCENTIVIZED_RED_PACKET_TRAFFIC", "bizType", "RED_PACKET")));
+            rollup.executeUpdate();
+        } catch (SQLException failure) { throw internal("R23每日指标聚合失败", failure); }
     }
 
     private <T> T transaction(SqlWork<T> work) {
