@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "openapi-typescript": "7.13.0",
+    "playwright-core": "1.55.0",
     "typescript": "5.9.3"
   }
 }

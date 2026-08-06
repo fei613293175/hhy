@@ -21,6 +21,22 @@ from typing import Any
 REQUEST_ID = "ui-visual-fixture"
 
 
+R23_CAMPAIGNS = [
+    {
+        "id": "r23-active-2001", "contentId": "content-r23-2001", "ownerUserId": "owner-r23",
+        "status": "ACTIVE", "totalCount": 80, "remainingCount": 63, "amountPerClaimCent": 123,
+        "principalCent": 9840, "serviceFeeCent": 0, "startAt": "2026-08-01T08:00:00Z",
+        "endAt": "2026-08-31T08:00:00Z", "version": 7,
+    },
+    {
+        "id": "r23-risk-2002", "contentId": "content-r23-2002", "ownerUserId": "owner-r23-risk",
+        "status": "PAUSED_BY_RISK", "totalCount": 60, "remainingCount": 59, "amountPerClaimCent": 200,
+        "principalCent": 12000, "serviceFeeCent": 0, "startAt": "2026-08-02T08:00:00Z",
+        "endAt": "2026-08-30T08:00:00Z", "version": 4,
+    },
+]
+
+
 def page(items: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "items": items,
@@ -59,7 +75,20 @@ def api_fixture(path: str, method: str) -> tuple[int, dict[str, Any]] | None:
     parsed = urllib.parse.urlsplit(path)
     route = parsed.path
     if method == "POST" and route == "/admin-api/v1/auth/login":
-        return 200, {"data": {"accessToken": "visual-admin-token", "adminUserId": "7", "displayName": "视觉验收员", "permissionCodes": ["identity.read", "identity.review", "identity.media.view", "identity.freeze", "user.read", "user.restrict", "user.freeze", "user.security", "config.manage", "domain.read", "domain.write", "domain.verify"], "mfaRequired": "NONE"}, "requestId": REQUEST_ID}
+        return 200, {"data": {"accessToken": "visual-admin-token", "adminUserId": "7", "displayName": "视觉验收员", "expiresAt": "2030-01-01T00:00:00Z", "permissionCodes": ["identity.read", "identity.review", "identity.media.view", "identity.freeze", "user.read", "user.restrict", "user.freeze", "user.security", "config.manage", "domain.read", "domain.write", "domain.verify", "redpacket.read", "redpacket.manage", "redpacket.terminate", "redpacket.finance"], "mfaRequired": "NONE"}, "requestId": REQUEST_ID}
+    if method == "GET" and route == "/admin-api/v1/red-packet-campaigns":
+        return 200, {"data": page(R23_CAMPAIGNS), "requestId": REQUEST_ID}
+    if method == "GET" and route.startswith("/admin-api/v1/red-packet-campaigns/"):
+        suffix = route.removeprefix("/admin-api/v1/red-packet-campaigns/")
+        campaign_id = suffix.split("/", 1)[0]
+        campaign = next((item for item in R23_CAMPAIGNS if item["id"] == campaign_id), R23_CAMPAIGNS[0])
+        if suffix.endswith("/sessions"):
+            return 200, {"data": page([{"id": "r23-session-1", "campaignId": campaign["id"], "status": "CLAIMED", "requiredSeconds": 20, "accumulatedSeconds": 20, "expiresAt": "2026-08-06T10:01:00Z", "version": 2}]), "requestId": REQUEST_ID}
+        if suffix.endswith("/claims"):
+            return 200, {"data": page([{"id": "r23-claim-1", "campaignId": campaign["id"], "status": "SETTLED", "amountCent": 123, "amountVersion": 1, "createdAt": "2026-08-06T10:00:20Z", "updatedAt": "2026-08-06T10:00:20Z"}]), "requestId": REQUEST_ID}
+        if suffix.endswith("/ledger"):
+            return 200, {"data": {"items": [{"id": "r23-ledger-1", "campaignId": campaign["id"], "entryType": "PRINCIPAL", "amountCent": 9840, "balanceAfterCent": 9840, "bizId": "r23-order-1", "createdAt": "2026-08-01T08:00:00Z"}]}, "requestId": REQUEST_ID}
+        return 200, {"data": campaign, "requestId": REQUEST_ID}
     if method == "GET" and route == "/admin-api/v1/identities":
         return 200, {"data": page(IDENTITIES), "requestId": REQUEST_ID}
     if method == "GET" and route.startswith("/admin-api/v1/identities/"):

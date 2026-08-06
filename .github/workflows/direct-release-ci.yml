@@ -35,6 +35,21 @@ jobs:
       - run: pnpm --filter @hhy/h5 test
       - run: pnpm --filter @hhy/admin-web build
       - run: pnpm --filter @hhy/h5 build
+      - name: Capture R23 admin visual evidence
+        run: |
+          pnpm --filter @hhy/admin-web dev --host 127.0.0.1 --port 5173 > /tmp/r23-admin-vite.log 2>&1 &
+          python scripts/serve_ui_visual_fixture_proxy.py --port 5183 --upstream http://127.0.0.1:5173 > /tmp/r23-admin-proxy.log 2>&1 &
+          for attempt in {1..30}; do curl --fail --silent http://127.0.0.1:5183/auth/login >/dev/null && break; sleep 1; done
+          test "$(curl --write-out '%{http_code}' --silent --output /dev/null http://127.0.0.1:5183/auth/login)" = 200
+          HHY_BROWSER_EXECUTABLE=/usr/bin/google-chrome HHY_R23_ADMIN_VISUAL_URL=http://127.0.0.1:5183 node scripts/capture_r23_admin_visuals.mjs
+          test -f artifacts/reports/R23/ui/ADM-RP-002.png
+          test -f artifacts/reports/R23/ui/ADM-RP-004.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r23-admin-visuals-${{ github.run_id }}
+          path: artifacts/reports/R23/ui/ADM-RP-*.png
+          if-no-files-found: error
+          retention-days: 30
 
   backend:
     name: Backend
