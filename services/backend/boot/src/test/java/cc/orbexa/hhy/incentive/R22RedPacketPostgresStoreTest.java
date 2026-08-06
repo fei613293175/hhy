@@ -400,13 +400,15 @@ class R22RedPacketPostgresStoreTest {
         }
 
         long additionalContent() {
-            long id = jdbc.queryForObject("""
-                    INSERT INTO hhy.content_posts(owner_id,type,title,status)
-                    VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
-                    """, Long.class, ownerId, "R23 integration " + suffix());
-            jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
-                    id, "R23 integration fixture");
-            return id;
+            return new TransactionTemplate(new DataSourceTransactionManager(dataSource)).execute(status -> {
+                long id = jdbc.queryForObject("""
+                        INSERT INTO hhy.content_posts(owner_id,type,title,status)
+                        VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
+                        """, Long.class, ownerId, "R23 integration " + suffix());
+                jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
+                        id, "R23 integration fixture");
+                return id;
+            });
         }
 
         R20RedPacketPostgresStore store(Instant instant) {
